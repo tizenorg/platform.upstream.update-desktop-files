@@ -9,6 +9,7 @@ Source:         tizen_update_desktop_file.sh
 Source1:        map-desktop-category.sh
 Source2:        macro
 Source4:        brp-trim-desktop.sh
+Source1001: 	update-desktop-files.manifest
 # This is not true technically, but we do that to make the rpm macros from
 # desktop-file-utils available to most packages that ship a .desktop file
 # (since they already have a update-desktop-files BuildRequires).
@@ -28,6 +29,7 @@ Trim translations from all .deskop files found in build root
 
 %prep
 %setup -q -n . -D -T 0
+cp %{SOURCE1001} .
 mkdir %name
 cd %name
 
@@ -40,12 +42,14 @@ install -m0644 -D %SOURCE2 $RPM_BUILD_ROOT/etc/rpm/macros.%name
 install -m0755 -D %SOURCE4 $RPM_BUILD_ROOT/usr/lib/rpm/brp-tizen.d/brp-70-trim-desktopfiles
 
 %files
+%manifest %{name}.manifest
 %defattr(-,root,root)
 %_rpmconfigdir/*
 %exclude %_rpmconfigdir/brp-tizen.d
 /etc/rpm/*
 
 %files -n brp-trim-desktopfiles
+%manifest %{name}.manifest
 %defattr(-,root,root)
 %_rpmconfigdir/brp-tizen.d
 
