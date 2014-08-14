@@ -3,13 +3,13 @@ Version:        12.1
 Release:        0
 Summary:        A Build Tool to Update Desktop Files
 License:        GPL-2.0+
-Group:          Development/Tools/Building
+Group:          Development/Tools
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source:         tizen_update_desktop_file.sh
 Source1:        map-desktop-category.sh
 Source2:        macro
 Source4:        brp-trim-desktop.sh
-Source1001: 	update-desktop-files.manifest
+Source1001:     update-desktop-files.manifest
 # This is not true technically, but we do that to make the rpm macros from
 # desktop-file-utils available to most packages that ship a .desktop file
 # (since they already have a update-desktop-files BuildRequires).
@@ -36,21 +36,19 @@ cd %name
 %build
 
 %install
-mkdir -p $RPM_BUILD_ROOT%_rpmconfigdir
-install -m0755 %SOURCE0 %SOURCE1 $RPM_BUILD_ROOT%_rpmconfigdir
-install -m0644 -D %SOURCE2 $RPM_BUILD_ROOT/etc/rpm/macros.%name
-install -m0755 -D %SOURCE4 $RPM_BUILD_ROOT/usr/lib/rpm/brp-tizen.d/brp-70-trim-desktopfiles
+mkdir -p %{buildroot}%{_rpmconfigdir}
+install -m0755 %SOURCE0 %SOURCE1 %{buildroot}%{_rpmconfigdir}
+install -m0644 -D %SOURCE2 %{buildroot}%{_sysconfdir}/rpm/macros.%name
+install -m0755 -D %SOURCE4 %{buildroot}%{_libdir}/rpm/brp-tizen.d/brp-70-trim-desktopfiles
 
 %files
 %manifest %{name}.manifest
 %defattr(-,root,root)
-%_rpmconfigdir/*
+%{_rpmconfigdir}/*
 %exclude %_rpmconfigdir/brp-tizen.d
-/etc/rpm/*
+%{_sysconfdir}/rpm/*
 
 %files -n brp-trim-desktopfiles
 %manifest %{name}.manifest
 %defattr(-,root,root)
-%_rpmconfigdir/brp-tizen.d
-
-%changelog
+%{_rpmconfigdir}/brp-tizen.d
