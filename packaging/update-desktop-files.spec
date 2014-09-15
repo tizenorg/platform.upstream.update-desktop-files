@@ -39,7 +39,7 @@ cd %name
 mkdir -p %{buildroot}%{_rpmconfigdir}
 install -m0755 %SOURCE0 %SOURCE1 %{buildroot}%{_rpmconfigdir}
 install -m0644 -D %SOURCE2 %{buildroot}%{_sysconfdir}/rpm/macros.%name
-install -m0755 -D %SOURCE4 %{buildroot}%{_libdir}/rpm/brp-tizen.d/brp-70-trim-desktopfiles
+install -m0755 -D %SOURCE4 %{buildroot}%{_rpmconfigdir}/brp-tizen.d/brp-70-trim-desktopfiles
 
 %files
 %manifest %{name}.manifest
